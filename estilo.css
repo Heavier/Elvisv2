@@ -1,0 +1,13 @@
+#contenedor{
+    margin: 0 auto;
+    width: 955px;
+}
+
+div{
+	margin: .4em 0;
+}
+
+div label {
+	width: 15%;
+	float: left;
+}
