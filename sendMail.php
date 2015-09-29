@@ -24,6 +24,5 @@ if (empty($asunto) || empty($mensaje)){
         echo "<br />";
         }
 }
-
 mysqli_close($dbc);
 ?>

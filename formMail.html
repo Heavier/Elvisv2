@@ -1,16 +1,65 @@
 <html>
 <head></head>
 <body>
-    <?php $showForm = 0 ?>
+<?php $showform = true
+if (isset($_POST['enviar'])){
+    if (!empty($_POST['asunto']) && !empty($_POST['mensaje'])){
+        $error = 0;
+        //envío de correo
+        $dbc = mysqli_connect('localhost','root','root','elvisdb')
+    or die ('No se ha podido conectar con la base de datos.');
+
+        $asunto = $_POST['asunto'];
+        $mensaje = $_POST['mensaje'];
+
+        $consulta = "SELECT * FROM lista_email";
+        $resultado = mysqli_query($dbc,$consulta);
+
+        while ($row = mysqli_fetch_array($resultado)){
+            echo "<hr>";
+            echo "Asunto: ".$asunto;
+            echo "<br />";
+            echo "Mensaje: ".$mensaje;
+            echo "<br />";
+            echo "Para: ".$row["Nombre"].", ". $row["Apellidos"].", ". $row["Email"]."<br />";
+            echo "<hr>";
+            echo "<br />";
+            echo "<br />";
+        }
+        $showform = false;
+        echo " <a href='formMail.html'>Volver</a> ";
+        }else{
+            if  (empty($_POST['asunto']) && empty($_POST['mensaje'])){
+                $error = 1;
+                $errormsg = 'Asunto y mensaje del email vacíos';
+            }elseif (empty($_POST['asunto'])){
+                $error = 2;
+                $errormsg = 'Asunto vacío';
+            }else{
+                $error = 3;
+                $errormsg = 'Mensaje vacío';
+    }
+    }
+}   
+?>
+
+<div class="wrapper">
+    <div class="error <?php echo 'tipoerror'.$error; ?>">
+        <?php 
+            if ( isset($error) ){ echo $errormsg; }; ?>
+    </div>
     
-    <h1>Env&iacute;o de mensajes.</h1>
-<form action="sendMail2.php" method="post">
-    <p>Asunto: <input type="text" name="asunto" maxlength="30"></p>
-    <p>Mensaje: </p><textarea rows="10" cols="20" name="mensaje"></textarea> 
+<?php
+    if ($showform) {
+?> 
+<h1>Env&iacute;o de mensajes.</h1>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <p>Asunto: <input type="text" name="asunto" maxlength="30" value="<?php if ( isset($_POST['asunto']) ) {echo $_POST['asunto'];}; ?>"></p>
+    <p>Mensaje: </p><textarea rows="10" cols="20" name="mensaje"><?php if ( isset($_POST['mensaje']) ) {echo $_POST['mensaje'];}; ?></textarea> 
     <br />
     <input type="submit" name="enviar" value="Enviar">
     </form>
     
-
+<?php mysqli_close($dbc); ?>
 </body>
 </html>

@@ -49,6 +49,7 @@ echo '</html>';
         echo "<br />";
         echo "<br />";
         }
+    echo " <a href='formMail.html'>Volver</a> ";
     }
 }
         
