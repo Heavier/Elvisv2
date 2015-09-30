@@ -60,7 +60,7 @@
         <?php
             if (isset($error)){echo $errormsg; }; ?>
     </div>
-        <!--<1>Envío de correos</h1>-->
+        <h1>Envío de correos</h1>
         
 <?php 
     if ($showform) {
